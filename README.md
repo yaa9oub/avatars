@@ -81,10 +81,9 @@ This project was built purely for fun. If you find it useful, great! If not, wel
 ## 💌 **Let's Connect**
 
 If you have any questions, suggestions, or just want to say hi, feel free to reach out!  
-📧 **Email**: your-email@example.com  
-🐦 **Twitter**: [@yourhandle](https://twitter.com/yourhandle)
+📧 **Email**: seyf.yagoub@gmail.com  
 
 ---
 
 Happy coding! 🚀  
-– [Your Name]
+– Yaa9oub
