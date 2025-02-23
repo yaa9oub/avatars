@@ -1,4 +1,7 @@
 class AppAssets {
+  static const String rainbow = 'assets/rainbow.png';
+  static const String avatarBackground = 'assets/bg.svg';
+
   static const String faceShape1 = 'assets/faceshapes/faceShape1.svg';
   static const String faceShape2 = 'assets/faceshapes/faceShape2.svg';
   static const String faceShape3 = 'assets/faceshapes/faceShape3.svg';

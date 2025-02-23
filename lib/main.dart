@@ -1,5 +1,7 @@
-import 'package:avatars/consts.dart';
+import 'package:avatars/assets.dart';
+import 'package:avatars/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:svg_flutter/svg.dart';
 import 'dart:math'; // Import for Random class
 
@@ -100,14 +102,14 @@ class _MyHomePageState extends State<MyHomePage> {
     // Add an empty option to the list of items
     final List<String> itemsWithEmpty = [""] + items;
 
-    return Container(
+    return SizedBox(
       height: 100,
-      color: Colors.grey.shade300,
+      // color: Colors.grey.shade300,
       child: ListView.separated(
         itemCount: itemsWithEmpty.length,
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 10),
-        separatorBuilder: (context, index) => const SizedBox(width: 5),
+        separatorBuilder: (context, index) => const SizedBox(width: 10),
         itemBuilder: (context, index) {
           final item = itemsWithEmpty[index];
           return Center(
@@ -116,10 +118,12 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 90,
               decoration: BoxDecoration(
                 color: Colors.white,
+                borderRadius: BorderRadius.circular(25),
                 border: Border.all(
-                  color:
-                      selectedItem == item ? Colors.black : Colors.transparent,
-                  width: 1,
+                  color: selectedItem == item
+                      ? Color(0xFF58315A)
+                      : Colors.transparent,
+                  width: 4,
                 ),
               ),
               padding: const EdgeInsets.all(10),
@@ -142,155 +146,273 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Random Avatar Generator'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.shuffle),
-            onPressed: generateRandomAvatar, // Call the random avatar function
-          ),
-        ],
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          const SizedBox(height: 25),
-          Container(
-            width: 350,
-            height: 350,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade300,
-              shape: BoxShape.circle,
+      backgroundColor: AppColors.primary,
+      body: Stack(
+        children: [
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Image.asset(
+                AppAssets.rainbow,
+                fit: BoxFit.fitWidth,
+              ),
             ),
-            child: Stack(
-              alignment: Alignment.center,
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildAvatarPart(faceShape,
-                    width: 155, alignment: Alignment.bottomCenter),
-                Positioned(
-                    top: 14,
-                    left: 84,
-                    child:
-                        _buildAvatarPart(hairStyle, width: 180, height: 200)),
-                Positioned(
-                    top: 100,
-                    left: 100,
-                    child:
-                        _buildAvatarPart(eyesShape, width: 150, height: 150)),
-                Positioned(
-                    top: 185,
-                    left: 100,
-                    child:
-                        _buildAvatarPart(mouthShape, width: 150, height: 150)),
-                Positioned(
-                    top: 120,
-                    left: 100,
-                    child:
-                        _buildAvatarPart(noseShape, width: 150, height: 150)),
-                Positioned(
-                    top: 100,
-                    left: 72.5,
-                    child: _buildAvatarPart(earShape, width: 205, height: 150)),
-                Positioned(
-                    top: 105,
-                    left: 95,
-                    child: _buildAvatarPart(glasses, width: 160, height: 150)),
-                Positioned(
-                    top: 200,
-                    left: 105,
-                    child:
-                        _buildAvatarPart(beardShape, width: 140, height: 150)),
-                Positioned(
-                    top: 5,
-                    left: 100,
-                    child: _buildAvatarPart(accessorie, width: 150)),
-              ],
-            ),
-          ),
-          Column(
-            children: [
-              Visibility(
-                visible: selectedShape == "Face",
-                child: _buildSelectionList(AppAssets.faceShapes, faceShape,
-                    (item) => setState(() => faceShape = item)),
-              ),
-              Visibility(
-                visible: selectedShape == "Hair",
-                child: _buildSelectionList(AppAssets.hairStyles, hairStyle,
-                    (item) => setState(() => hairStyle = item)),
-              ),
-              Visibility(
-                visible: selectedShape == "Eyes",
-                child: _buildSelectionList(AppAssets.eyeShapes, eyesShape,
-                    (item) => setState(() => eyesShape = item)),
-              ),
-              Visibility(
-                visible: selectedShape == "Mouth",
-                child: _buildSelectionList(AppAssets.mouthShapes, mouthShape,
-                    (item) => setState(() => mouthShape = item)),
-              ),
-              Visibility(
-                visible: selectedShape == "Nose",
-                child: _buildSelectionList(AppAssets.noseShapes, noseShape,
-                    (item) => setState(() => noseShape = item)),
-              ),
-              Visibility(
-                visible: selectedShape == "Ears",
-                child: _buildSelectionList(AppAssets.ears, earShape,
-                    (item) => setState(() => earShape = item)),
-              ),
-              Visibility(
-                visible: selectedShape == "Beard",
-                child: _buildSelectionList(AppAssets.beards, beardShape,
-                    (item) => setState(() => beardShape = item)),
-              ),
-              Visibility(
-                visible: selectedShape == "Glasses",
-                child: _buildSelectionList(AppAssets.glasses, glasses,
-                    (item) => setState(() => glasses = item)),
-              ),
-              Visibility(
-                visible: selectedShape == "Accessorie",
-                child: _buildSelectionList(AppAssets.accessories, accessorie,
-                    (item) => setState(() => accessorie = item)),
-              ),
-              const SizedBox(height: 5),
-              Container(
-                height: 50,
-                color: Colors.grey.shade300,
-                child: ListView.separated(
-                  itemCount: avatarShapes.length,
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  scrollDirection: Axis.horizontal,
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(width: 5),
-                  itemBuilder: (context, index) {
-                    return Center(
-                      child: InkWell(
-                        onTap: () =>
-                            setState(() => selectedShape = avatarShapes[index]),
-                        child: Container(
-                          height: 40,
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: selectedShape == avatarShapes[index]
-                                  ? Colors.black
-                                  : Colors.transparent,
-                              width: 1,
+                //avatar
+                Container(
+                  width: 350,
+                  height: 350,
+                  margin: const EdgeInsets.only(top: 70),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Color(0xFF58315A),
+                      width: 4,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xFF58315A),
+                        offset: const Offset(5, 5),
+                      ),
+                    ],
+                  ),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Positioned(
+                        top: 100,
+                        left: 72,
+                        child: _buildAvatarPart(
+                          earShape,
+                          width: 202,
+                          height: 150,
+                        ),
+                      ),
+                      _buildAvatarPart(
+                        faceShape,
+                        width: 155,
+                        alignment: Alignment.bottomCenter,
+                      ),
+                      Positioned(
+                        top: 14,
+                        left: 84,
+                        child: _buildAvatarPart(
+                          hairStyle,
+                          width: 175,
+                          height: 200,
+                        ),
+                      ),
+                      Positioned(
+                        top: 100,
+                        left: 100,
+                        child: _buildAvatarPart(
+                          eyesShape,
+                          width: 150,
+                          height: 150,
+                        ),
+                      ),
+                      Positioned(
+                        top: 210,
+                        left: 100,
+                        child: _buildAvatarPart(
+                          beardShape,
+                          width: 140,
+                          height: 150,
+                        ),
+                      ),
+                      Positioned(
+                        top: 190,
+                        left: 98,
+                        child: _buildAvatarPart(
+                          mouthShape,
+                          width: 150,
+                          height: 150,
+                        ),
+                      ),
+                      Positioned(
+                        top: 120,
+                        left: 100,
+                        child: _buildAvatarPart(
+                          noseShape,
+                          width: 150,
+                          height: 150,
+                        ),
+                      ),
+                      Positioned(
+                        top: 105,
+                        left: 95,
+                        child: _buildAvatarPart(
+                          glasses,
+                          width: 160,
+                          height: 150,
+                        ),
+                      ),
+                      Positioned(
+                        top: 5,
+                        left: 93,
+                        child: _buildAvatarPart(
+                          accessorie,
+                          width: 160,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                //generators
+                Column(
+                  children: [
+                    Visibility(
+                      visible: selectedShape == "Face",
+                      child: _buildSelectionList(
+                          AppAssets.faceShapes,
+                          faceShape,
+                          (item) => setState(() => faceShape = item)),
+                    ),
+                    Visibility(
+                      visible: selectedShape == "Hair",
+                      child: _buildSelectionList(
+                          AppAssets.hairStyles,
+                          hairStyle,
+                          (item) => setState(() => hairStyle = item)),
+                    ),
+                    Visibility(
+                      visible: selectedShape == "Eyes",
+                      child: _buildSelectionList(AppAssets.eyeShapes, eyesShape,
+                          (item) => setState(() => eyesShape = item)),
+                    ),
+                    Visibility(
+                      visible: selectedShape == "Mouth",
+                      child: _buildSelectionList(
+                          AppAssets.mouthShapes,
+                          mouthShape,
+                          (item) => setState(() => mouthShape = item)),
+                    ),
+                    Visibility(
+                      visible: selectedShape == "Nose",
+                      child: _buildSelectionList(
+                          AppAssets.noseShapes,
+                          noseShape,
+                          (item) => setState(() => noseShape = item)),
+                    ),
+                    Visibility(
+                      visible: selectedShape == "Ears",
+                      child: _buildSelectionList(AppAssets.ears, earShape,
+                          (item) => setState(() => earShape = item)),
+                    ),
+                    Visibility(
+                      visible: selectedShape == "Beard",
+                      child: _buildSelectionList(AppAssets.beards, beardShape,
+                          (item) => setState(() => beardShape = item)),
+                    ),
+                    Visibility(
+                      visible: selectedShape == "Glasses",
+                      child: _buildSelectionList(AppAssets.glasses, glasses,
+                          (item) => setState(() => glasses = item)),
+                    ),
+                    Visibility(
+                      visible: selectedShape == "Accessorie",
+                      child: _buildSelectionList(
+                          AppAssets.accessories,
+                          accessorie,
+                          (item) => setState(() => accessorie = item)),
+                    ),
+                    const SizedBox(height: 5),
+                    SizedBox(
+                      height: 65,
+                      child: ListView.separated(
+                        itemCount: avatarShapes.length,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        scrollDirection: Axis.horizontal,
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(width: 12),
+                        itemBuilder: (context, index) {
+                          return Center(
+                            child: InkWell(
+                              onTap: () => setState(
+                                  () => selectedShape = avatarShapes[index]),
+                              child: Container(
+                                height: 49,
+                                constraints:
+                                    const BoxConstraints(minWidth: 100),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFCFDAED),
+                                  borderRadius: BorderRadius.circular(25),
+                                  border: Border.all(
+                                    color: selectedShape == avatarShapes[index]
+                                        ? Color(0xFF58315A)
+                                        : Colors.transparent,
+                                    width: 4,
+                                    strokeAlign: BorderSide.strokeAlignOutside,
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    avatarShapes[index],
+                                    style: GoogleFonts.kodchasan(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    GestureDetector(
+                      onTap: generateRandomAvatar,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 15),
+                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        decoration: BoxDecoration(
+                          color: Color(0xFF96D1BD),
+                          borderRadius: BorderRadius.circular(25),
+                          border: Border.all(
+                            color: Color(0xFF58315A),
+                            width: 4,
                           ),
-                          child: Center(
-                            child: Text(avatarShapes[index]),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0xFF58315A),
+                              offset: const Offset(5, 5),
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Randomize",
+                            style: GoogleFonts.kodchasan(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Color(0xFF58315A),
+                            ),
                           ),
                         ),
                       ),
-                    );
-                  },
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                  ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
